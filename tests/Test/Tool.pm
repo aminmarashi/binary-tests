@@ -13,8 +13,6 @@ sub start_client {
     $endpoint //= $ENV{ENDPOINT};
     $token    //= $ENV{TOKEN};
 
-    warn $token;
-
     my $ws_client = BinaryAsync::Client->new(uri => $endpoint);
 
     $loop->add($ws_client);
