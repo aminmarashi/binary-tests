@@ -3,18 +3,19 @@
 ## Run the tests with your token and endpoint
 
 ```
-./run.sh --token [yourtoken] --endpoint [yourendpoint]
+$ ./run.sh --token [yourtoken] --endpoint [yourendpoint]
 ```
 
 ## Stop the tests
 
 ```
-./stop.sh
+$ ./stop.sh
 ```
 
 ## Watch the tests
 
 ```
+$ ./watch.sh
 ==> logs/tick_trade1.pl.log <==
 @time: 1509357035, Contract: 1200019
 @time: 1509357036, Contract: 1200019
