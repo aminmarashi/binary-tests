@@ -10,6 +10,8 @@ local $| = 1;
 
 my $ws_client = Test::Tool::start_client;
 
+my $duration = 15;
+
 while(1) {
     my $proposal = $ws_client->await_proposal({
         proposal => 1,
@@ -18,8 +20,8 @@ while(1) {
         contract_type => 'CALL',
         currency => 'USD',
         symbol => 'R_100',
-        duration => 5,
-        duration_unit => 'm'
+        duration => $duration,
+        duration_unit => 's'
     });
 
     my $buy = $ws_client->await_buy({
@@ -27,13 +29,13 @@ while(1) {
         price => $proposal->{ask_price},
     });
 
-    $ws_client->wait_until_finished(
+    my $wuf = $ws_client->wait_until_finished(
         request => {
             proposal_open_contract => 1,
             subscribe => 1,
             contract_id => $buy->{contract_id},
         },
-        timeout => 60 * 6,
+        timeout => $duration + 5,
         stall_timeout => 10,
         is_finished => sub {
             my $contract = shift->{proposal_open_contract};
@@ -47,8 +49,13 @@ while(1) {
 
             $ws_client->request({sell_expired => 1}) if $contract->{is_expired} and (not $contract->{is_sold});
         }
-    )->then(sub { print Dumper shift; Future->done() })->else(sub { die Dumper shift })
-    ->get;
+    )->then(sub {
+        my $contract = shift->{proposal_open_contract};
+        print '@time: ' . time . ', Finished Contract: ' . $contract->{contract_id};
+        return Future->done();
+    })->else(sub { die Dumper shift });
+
+    $wuf->get;
 }
 
 1;
