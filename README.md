@@ -2,12 +2,12 @@
 
 ## Dependencies
 
-Download and install avail-tests
+Download and install [avail-tests](https://github.com/aminmarashi/avail-test)
 
 ```
 git clone https://github.com/aminmarashi/avail-test.git avail-test
 cd avail-test
-./install.sh
+source install.sh
 ```
 
 ## Add your token and endpoint to test.config
