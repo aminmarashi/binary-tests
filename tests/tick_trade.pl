@@ -35,7 +35,7 @@ while(1) {
             subscribe => 1,
             contract_id => $buy->{contract_id},
         },
-        timeout => $duration + 5,
+        timeout => $duration * 2,
         stall_timeout => 10,
         is_finished => sub {
             my $contract = shift->{proposal_open_contract};
@@ -45,7 +45,7 @@ while(1) {
         on_response => sub {
             my $contract = shift->{proposal_open_contract};
 
-            print '@time: ' . time . ', Contract: ' . $contract->{contract_id};
+            print '@time: ' . time . ', Contract: ' . $contract->{contract_id} . ', Expired: ' . $contract->{is_expired} . ', Sold: ' . $contract->{is_sold} . ', Settleable: ' . $contract->{is_settleable};
 
             $ws_client->request({sell_expired => 1}) if $contract->{is_expired} and (not $contract->{is_sold});
         }
@@ -53,7 +53,7 @@ while(1) {
         my $contract = shift->{proposal_open_contract};
         print '@time: ' . time . ', Finished Contract: ' . $contract->{contract_id};
         return Future->done();
-    })->else(sub { die Dumper shift });
+    })->else(sub { die '@time: ' . time . ' - ' . Dumper shift });
 
     $wuf->get;
 }

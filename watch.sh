@@ -1,1 +1,1 @@
-watch 'tail -n 5 logs/*.pl.log '
+watch -n 1 'tail -n 1 logs/*.pl.log '
