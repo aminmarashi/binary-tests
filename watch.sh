@@ -6,11 +6,14 @@ ARG_RE='[\s=]*\K[^\s^=]*'
 
 PROGRESS_ARG=$(echo $@ | grep -oP -- '-p|--progress');
 INTERVAL_ARG=$(echo $@ | grep -oP -- "--interval$ARG_RE")
+ALIVE_TIMEOUT_ARG=$(echo $@ | grep -oP -- "--alive-timeout$ARG_RE")
 
 test -n "$PROGRESS_ARG" && PROGRESS="$PROGRESS_ARG"
 test -n "$INTERVAL_ARG" && INTERVAL="$INTERVAL_ARG"
+test -n "$ALIVE_TIMEOUT_ARG" && ALIVE_TIMEOUT="$ALIVE_TIMEOUT_ARG"
 
 test -z "$INTERVAL" && INTERVAL=1
+test -z "$ALIVE_TIMEOUT" && ALIVE_TIMEOUT=10
 
 is_alive() {
     echo $ALIVE_LIST | grep $1 >/dev/null
@@ -23,9 +26,9 @@ is_alive() {
 
 if [ -n "$PROGRESS" ]; then
     while : ; do
-        ALIVE_LIST=`find logs -newermt '-10 seconds'`
+        ALIVE_LIST=`find logs -newermt "-$ALIVE_TIMEOUT seconds"`
         for i in logs/*; do
-        is_alive $i;
+            is_alive $i;
         done
         echo $OUTPUT
 	OUTPUT=''
