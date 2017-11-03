@@ -1,6 +1,16 @@
 #! /bin/bash
 
-export PROGRESS=$(echo $@ | grep -oP -- '-p|--progress');
+. config
+
+ARG_RE='[\s=]*\K[^\s^=]*'
+
+PROGRESS_ARG=$(echo $@ | grep -oP -- '-p|--progress');
+INTERVAL_ARG=$(echo $@ | grep -oP -- "--interval$ARG_RE")
+
+test -n "$PROGRESS_ARG" && PROGRESS="$PROGRESS_ARG"
+test -n "$INTERVAL_ARG" && INTERVAL="$INTERVAL_ARG"
+
+test -z "$INTERVAL" && INTERVAL=1
 
 is_alive() {
     tail -n 1 $1 | grep Contract >/dev/null
@@ -17,8 +27,10 @@ if [ -n "$PROGRESS" ]; then
         is_alive $i;
         done
         echo
-	sleep 1;
+	sleep $INTERVAL;
     done
 else
-    watch -n 1 'tail -n 1 logs/*.pl.log '
+    watch -n $INTERVAL 'tail -n 1 logs/*.pl.log'
 fi
+
+exit 1;
