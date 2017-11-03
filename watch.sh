@@ -13,20 +13,22 @@ test -n "$INTERVAL_ARG" && INTERVAL="$INTERVAL_ARG"
 test -z "$INTERVAL" && INTERVAL=1
 
 is_alive() {
-    tail -n 1 $1 | grep Contract >/dev/null
+    echo $ALIVE_LIST | grep $1 >/dev/null
     if [ $? -eq 0 ]; then
-        echo -n +
+        OUTPUT="$OUTPUT+"
     else
-        echo -n .
+        OUTPUT="$OUTPUT."
     fi
 }
 
 if [ -n "$PROGRESS" ]; then
     while : ; do
+        ALIVE_LIST=`find logs -newermt '-10 seconds'`
         for i in logs/*; do
         is_alive $i;
         done
-        echo
+        echo $OUTPUT
+	OUTPUT=''
 	sleep $INTERVAL;
     done
 else
