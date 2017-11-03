@@ -1,4 +1,4 @@
-tests/BinaryAsyncClient
 pids
 logs
 lib
+output.log

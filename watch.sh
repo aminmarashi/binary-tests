@@ -29,12 +29,14 @@ is_alive() {
 }
 
 if [ -n "$PROGRESS" ]; then
+    echo -e 'Time\t|# Alive|Alive Tests'
     while : ; do
         ALIVE_LIST=`find logs -newermt "-$ALIVE_TIMEOUT seconds"`
         for i in logs/*; do
             is_alive $i;
         done
-        echo $OUTPUT
+	COUNT=`echo $OUTPUT |grep + -o |wc -l`
+        echo -e `date +'%H:%M:%S'`"|$COUNT\t|$OUTPUT"
 	OUTPUT=''
 	sleep $INTERVAL;
     done
