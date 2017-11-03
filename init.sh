@@ -1,4 +1,5 @@
-. avail.config
+#! /bin/bash
+. test.config
 
 export ENDPOINT;
 export TOKEN;
