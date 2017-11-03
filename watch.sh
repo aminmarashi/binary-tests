@@ -17,6 +17,7 @@ if [ -n "$PROGRESS" ]; then
         is_alive $i;
         done
         echo
+	sleep 1;
     done
 else
     watch -n 1 'tail -n 1 logs/*.pl.log '

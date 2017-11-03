@@ -24,7 +24,11 @@ export TOKEN;
 echo "Connecting to $ENDPOINT"
 echo "Token is $(echo $TOKEN | cut -c 1-8)..."
 
-pushd tests
+mkdir ./logs 2>/dev/null
+mkdir ./pids 2>/dev/null
+rm ./logs/*
+
+pushd lib
 
 test ! -d BinaryAsyncClient && git clone https://github.com/aminmarashi/BinaryAsyncClient.git BinaryAsyncClient
 
@@ -32,11 +36,14 @@ pushd BinaryAsyncClient
     git pull
 popd
 
-mkdir ../logs 2>/dev/null
-mkdir ../pids 2>/dev/null
+popd
+
+LIB_PATH=`pwd`/lib
+
+pushd tests
 
 for p in *.pl; do
-    perl -I./BinaryAsyncClient/lib -l $p > ../logs/$p.log 2>&1 &
+    perl -I$LIB_PATH/BinaryAsyncClient/lib -I$LIB_PATH -l $p > ../logs/$p.log 2>&1 &
     echo $! > ../pids/$p.pid
 done
 
