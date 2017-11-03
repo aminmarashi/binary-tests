@@ -1,3 +1,4 @@
 tests/BinaryAsyncClient
 pids
 logs
+config
