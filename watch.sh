@@ -7,17 +7,21 @@ ARG_RE='[\s=]*\K[^\s^=]*'
 PROGRESS_ARG=$(echo $@ | grep -oP -- '-p|--progress');
 INTERVAL_ARG=$(echo $@ | grep -oP -- "--interval$ARG_RE")
 ALIVE_TIMEOUT_ARG=$(echo $@ | grep -oP -- "--alive-timeout$ARG_RE")
+ALIVE_CHECK_ARG=$(echo $@ | grep -oP -- "--alive-check=\K.*")
 
 test -n "$PROGRESS_ARG" && PROGRESS="$PROGRESS_ARG"
 test -n "$INTERVAL_ARG" && INTERVAL="$INTERVAL_ARG"
 test -n "$ALIVE_TIMEOUT_ARG" && ALIVE_TIMEOUT="$ALIVE_TIMEOUT_ARG"
+test -n "$ALIVE_CHECK_ARG" && ALIVE_CHECK="$ALIVE_CHECK_ARG"
 
 test -z "$INTERVAL" && INTERVAL=1
 test -z "$ALIVE_TIMEOUT" && ALIVE_TIMEOUT=10
+test -z "$ALIVE_CHECK" && ALIVE_CHECK=":"
 
 is_alive() {
-    echo $ALIVE_LIST | grep $1 >/dev/null
-    if [ $? -eq 0 ]; then
+    ALIVE=`echo $ALIVE_LIST | grep $1`
+    eval "$ALIVE_CHECK"
+    if [ $? -eq 0 -a -n "$ALIVE" ]; then
         OUTPUT="$OUTPUT+"
     else
         OUTPUT="$OUTPUT."

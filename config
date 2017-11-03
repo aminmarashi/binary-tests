@@ -1,0 +1,5 @@
+ENDPOINT='ws://localhost:5004/websockets/v3?app_id=1003&l=EN'
+TOKEN=a1-C86FWQNutDCTAMHUOkHLkwmPADRvK
+RUN_PREFIX=`echo {1..10}_`
+ALIVE_TIMEOUT=10
+ALIVE_CHECK='tail -n 1 $1 | grep Contract >/dev/null 2>&1'
