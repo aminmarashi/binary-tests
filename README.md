@@ -41,3 +41,18 @@ Time    |# Alive|Alive Tests
 09:19:58|10     |++++++++++
 09:19:59|10     |++++++++++
 ```
+
+## Watch the tests logs
+
+```
+$ avail-watch -w -l 5
+
+Every 1.0s: tail -n 5 /home/nobody/binary-tests/.avail-tests/logs/*
+
+==> /home/nobody/binary-tests/.avail-tests/logs/1_tick_trade.pl.log <==
+Subcribed to proposal
+Purchased the contract
+New open contract: 123182398
+Contract finished
+Start over
+```
