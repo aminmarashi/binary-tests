@@ -4,18 +4,26 @@
 export ENDPOINT;
 export TOKEN;
 
+_pushd () {
+    pushd "$1" >/dev/null
+}
+
+_popd () {
+    popd >/dev/null
+}
+
 echo "Connecting to $ENDPOINT"
 echo "Token is $(echo $TOKEN | cut -c 1-8)..."
 
 mkdir "$LIB_PATH" 2>/dev/null
 
-pushd "$LIB_PATH"
+_pushd "$LIB_PATH"
 
 test ! -d BinaryAsyncClient && git clone https://github.com/aminmarashi/BinaryAsyncClient.git BinaryAsyncClient
 
-pushd BinaryAsyncClient
+_pushd BinaryAsyncClient
     git pull
-popd
+_popd
 
-popd
+_popd
 
