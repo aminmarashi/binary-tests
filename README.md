@@ -10,18 +10,18 @@ cd avail-test
 source install.sh
 ```
 
-## Add your token and endpoint to test.config
+## Add your token and endpoint to ~/.binary_test.conf
 
 ```
 # Hint: Use single-quote around your endpoint!
-ENDPOINT=[endpoint]
-TOKEN=[your token]
+ENDPOINT='wss://endpoint/somewhere?something=value'
+TOKEN='abcdefg12345'
 ```
 
-## Run the tests with your token and endpoint
+## Run the tests
 
 ```
-$ avail-start
+$ avail-test
 ```
 
 ## Stop the tests
@@ -34,12 +34,10 @@ $ avail-stop
 
 ```
 $ avail-watch
-==> logs/tick_trade1.pl.log <==
-@time: 1509357041, Contract: 1200019
-
-==> logs/tick_trade2.pl.log <==
-@time: 1509357041, Contract: 1199979
-
-==> logs/tick_trade.pl.log <==
-@time: 1509357041, Contract: 1200039
+Time    |# Alive|Alive Tests
+09:19:54|10     |++++++++++
+09:19:55|10     |++++++++++
+09:19:56|10     |++++++++++
+09:19:58|10     |++++++++++
+09:19:59|10     |++++++++++
 ```
