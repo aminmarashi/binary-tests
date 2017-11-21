@@ -47,9 +47,9 @@ Time    |# Alive|Alive Tests
 ```
 $ avail-watch -w -l 5
 
-Every 1.0s: tail -n 5 /home/nobody/binary-tests/.avail-tests/logs/*
+Every 1.0s: tail -n 5 /home/user/binary-tests/.avail-tests/logs/*
 
-==> /home/nobody/binary-tests/.avail-tests/logs/1_tick_trade.pl.log <==
+==> /home/user/binary-tests/.avail-tests/logs/1_tick_trade.pl.log <==
 Subcribed to proposal
 Purchased the contract
 New open contract: 123182398
